@@ -31,4 +31,8 @@ class BookOut(BaseModel):
 
 class BorrowRequest(BaseModel):
     username: str
-    book_id: int | None = None
+    book_id: int
+
+
+class ReturnRequest(BaseModel):
+    username: str

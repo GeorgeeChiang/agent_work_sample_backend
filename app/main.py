@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from .database import Base, SessionLocal, engine, get_db
 from .models import Book, Loan, User
-from .schemas import BookOut, BorrowRequest, LoginRequest, LoginResponse, UserOut
+from .schemas import BookOut, BorrowRequest, LoginRequest, LoginResponse, ReturnRequest, UserOut
 from .seed import seed
 
 app = FastAPI(title="Library Sample API")
@@ -84,7 +84,7 @@ def borrow_book(payload: BorrowRequest, db: Session = Depends(get_db)) -> BookOu
 
 
 @app.post("/loans/{book_id}/return", response_model=BookOut)
-def return_book(book_id: int, payload: BorrowRequest, db: Session = Depends(get_db)) -> BookOut:
+def return_book(book_id: int, payload: ReturnRequest, db: Session = Depends(get_db)) -> BookOut:
     user = db.query(User).filter(User.username == payload.username).first()
     if user is None:
         raise HTTPException(status_code=404, detail="找不到使用者")
